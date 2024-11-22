@@ -1,0 +1,43 @@
+{
+  "manifest_version": 3,
+  "name": "Auto Login Populator",
+  "version": "1.0",
+  "description": "Adds a searchable credentials popup above the login form.",
+  "permissions": [
+    "storage",
+    "scripting"
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "libs/jquery.min.js",
+        "libs/datatables.min.js",
+        "libs/datatables.min.css"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
+  "content_scripts": [
+    {
+      "run_at": "document_end",
+      "matches": [
+        "file://*/*"
+      ],
+      "js": [
+        "libs/jquery.min.js",
+        "content.js",
+        "background.js",
+        "libs/datatables.min.js"
+      ],
+      "css": [
+        "styles.css",
+        "libs/datatables.min.css"
+      ]
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  }
+}
