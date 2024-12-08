@@ -5,7 +5,8 @@
   "description": "Adds a searchable credentials popup above the login form.",
   "permissions": [
     "storage",
-    "scripting"
+    "scripting",
+    "clipboardRead"
   ],
   "host_permissions": [
     "https://*/*"
