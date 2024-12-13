@@ -198,92 +198,92 @@ class CredentialInjector {
       const tableClone = targetTable.cloneNode(true);
       tableClone.classList.add('dt-table');
       tableClone.id = 'credentials-table';
-      const table_data = create_table_data();
-      const table_head = create_table_head();
+      const userManager = new UserManager(SETTINGS.STORAGE_KEY)
+      add_users_to_users_object_from_table();
+      const table = createCredentialsTable(
+        userManager.getUsers(),
+        { usernameField, passwordField }
+      );
+      overlay.querySelector('.table-container').appendChild(table);
 
 
-      waitForElm('.table-container').then((elm) => {
-        // const table = create_table();
-        // elm.appendChild(table);
-        let dataTable = new DataTable('#credentials-table', {
-          paging: false, layout: {
-            top1: 'searchPanes'
-          },
-          searchPanes: true,
-          searchPanes: {
-            show: true,
-            initCollapsed: true,
-          },
-          responsive: true,
-          columnDefs: [
-            {
-              searchPanes: {
-                show: true
-              },
-              targets: [0]
+      let dataTable = new DataTable('#credentials-table', {
+        paging: false, layout: {
+          top1: 'searchPanes'
+        },
+        searchPanes: true,
+        searchPanes: {
+          show: true,
+          initCollapsed: true,
+        },
+        responsive: true,
+        columnDefs: [
+          {
+            searchPanes: {
+              show: true
             },
-            // {
-            //   searchPanes: {
-            //     show: false
-            //   },
-            //   targets: [2]
-            // }
-          ]
+            targets: [0]
+          },
+          // {
+          //   searchPanes: {
+          //     show: false
+          //   },
+          //   targets: [2]
+          // }
+        ]
+      });
+      add_functionality_to_dataTable();
+      dataTable.searchPanes.rebuildPane();
+      dataTable.searchPanes.threshold = 0.9;
+      function add_users_to_users_object_from_table() {
+        const userManager = new UserManager(SETTINGS.STORAGE_KEY)
+        const users = [];
+        doc.querySelectorAll('#customers tbody tr').forEach(row => {
+          const cells = row.cells;
+          const user = {
+            username: cells[0].innerText,
+            password: cells[1].innerText,
+            description: cells[2].innerText
+          };
+          users.push(user);
+          console.log(user);
         });
-        add_functionality_to_dataTable();
-        add_users_to_users_object_from_table();
-        dataTable.searchPanes.rebuildPane();
-        dataTable.searchPanes.threshold = 0.9;
-        function add_users_to_users_object_from_table() {
-          const userManager = new UserManager(SETTINGS.STORAGE_KEY)
-          const users = [];
-          doc.querySelectorAll('#customers tbody tr').forEach(row => {
-            const cells = row.cells;
-            const user = {
-              username: cells[0].innerText,
-              password: cells[1].innerText,
-              description: cells[2].innerText
-            };
-            users.push(user);
-            console.log(user);
-          });
-          userManager.addUsers(users);
-        };
+        userManager.addUsers(users);
+      };
 
-        function add_functionality_to_dataTable() {
-          document.querySelectorAll("#credentials-table tbody tr").forEach(row => {
-            row.addEventListener("click", () => {
-              const cells = row.getElementsByTagName("td");
-              usernameField.value = cells[0].innerText;
-              passwordField.value = cells[1].innerText;
-              document.body.removeChild(overlay);
-            });
-          });
-
-          document.getElementById("dt-search-0").focus();
-          // Close button handler
-          document.getElementById("close-popup").addEventListener("click", () => {
+      function add_functionality_to_dataTable() {
+        document.querySelectorAll("#credentials-table tbody tr").forEach(row => {
+          row.addEventListener("click", () => {
+            const cells = row.getElementsByTagName("td");
+            usernameField.value = cells[0].innerText;
+            passwordField.value = cells[1].innerText;
             document.body.removeChild(overlay);
           });
-        }
-
-
-
-        function selectFirstRow() {
-          const rows = dataTable.rows({ search: 'applied' }).nodes(); // Get the filtered rows
-          if (rows.length == 1) {
-            rows[0].click(); // Simulate a click on the first row
-          }
-        }
-
-        // Listen for search events
-        dataTable.on('search.dt', function () {
-          setTimeout(selectFirstRow, 0); // Call the function to select the first row after the search
         });
-        // await sleep(1000);
-        return true;
 
+        document.getElementById("dt-search-0").focus();
+        // Close button handler
+        document.getElementById("close-popup").addEventListener("click", () => {
+          document.body.removeChild(overlay);
+        });
+      }
+
+
+
+      function selectFirstRow() {
+        const rows = dataTable.rows({ search: 'applied' }).nodes(); // Get the filtered rows
+        if (rows.length == 1) {
+          rows[0].click(); // Simulate a click on the first row
+        }
+      }
+
+      // Listen for search events
+      dataTable.on('search.dt', function () {
+        setTimeout(selectFirstRow, 0); // Call the function to select the first row after the search
       });
+      // await sleep(1000);
+      return true;
+
 
 
       function create_table_data() {
@@ -469,12 +469,8 @@ class CredentialInjector {
       this.sendMessageToFetchTable(targetUrl).then(response => {
         // console.log('Response:', response)
       });
-      const table = createCredentialsTable(
-        this.userManager.getUsers(),
-        { usernameField, passwordField }
-      );
 
-      tableContainer.appendChild(table);
+      // tableContainer.appendChild(table);
     } catch (error) {
       createSnackbar('Failed to fetch credentials', 'error');
       console.error(error);
