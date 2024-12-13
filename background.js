@@ -7,6 +7,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       // sendResponse({ success: true, html: html });
       console.log('Sending response to:', sender.tab);
       sender.tab ? chrome.tabs.sendMessage(sender.tab.id, { success: true, html: html }) : null;
+      sendResponse({ success: true, html: html });
     }).catch(e => { sendResponse({ success: false, error: e }); });
   }
 
