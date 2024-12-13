@@ -398,7 +398,8 @@ class CredentialInjector {
   createTitle() {
     const title = document.createElement("h2");
     title.textContent = "Select Login Credentials";
-    title.className = "text-center text-white p-3 mb-4 rounded";
+    title.className = "text-center text-white p-3 mb-4 rounded Spotlight";
+    title.setAttribute("data-text", "Select Login Credentials");
     title.style.backgroundColor = this.getTitleColor();
     return title;
   }
