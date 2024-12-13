@@ -165,9 +165,15 @@ function createCredentialsTable(users, { usernameField, passwordField }) {
 class CredentialInjector {
   constructor() {
     this.userManager = new UserManager(SETTINGS.STORAGE_KEY);
-    this.initializeEventListeners();
+    //check if in the correct page
+    if (this.inCorrectPage()) {
+      this.initializeEventListeners();
+    }
   }
-
+  inCorrectPage() {
+    return window.location.href.includes
+      ("erp") || window.location.href.includes("qas") || window.location.href.includes("preprod");
+  };
   initializeEventListeners() {
     this.waitForFormFields()
       .then(this.createPopupTable.bind(this))
@@ -304,7 +310,6 @@ class CredentialInjector {
     return new Promise((resolve, reject) => {
       let attempts = 0;
       const MAX_ATTEMPTS = 200;
-
       const checkFields = () => {
         const loginForm = document.getElementById("login-form");
         const usernameField = document.getElementById("username");
