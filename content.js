@@ -357,6 +357,8 @@ class CredentialInjector {
       const tableContainer = overlay.querySelector('.table-container');
 
       // Add title
+      const aurora = this.createAurora();
+      tableContainer.prepend(aurora);
       const title = this.createTitle();
       tableContainer.prepend(title);
 
@@ -378,28 +380,30 @@ class CredentialInjector {
     const overlay = document.createElement("div");
     overlay.id = "credential-overlay";
     overlay.className = "fixed inset-0 bg-black/50 z-50 flex justify-center items-center";
-    overlay.style.cssText = `
-      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-  background: rgba(0, 0, 0, 0.5); display: flex; justify - content: center;
-  align - items: center; z - index: 1000;
-  `;
 
     const tableContainer = document.createElement("div");
     tableContainer.className = "table-container bg-white p-6 rounded-lg max-w-4xl max-h-[80vh] w-full overflow-auto relative";
-    tableContainer.style.cssText = `
-  background: white; padding: 20px; border-radius: 8px; max-width: 80vw;
-  max - height: 80vh; overflow: auto;
-  `;
 
     overlay.appendChild(tableContainer);
     return overlay;
   }
 
+  createAurora() {
+
+    let aurora = document.createElement('div');
+    aurora.className = "aurora";
+    for (let i = 0; i < 4; i++) {
+      const auroraItem = document.createElement('div')
+      auroraItem.className = "aurora__item"
+      aurora.append(auroraItem);
+    }
+    return aurora;
+  }
   createTitle() {
     const title = document.createElement("h2");
     title.textContent = "Select Login Credentials";
-    title.className = "text-center text-white p-3 mb-4 rounded";
-    title.style.backgroundColor = this.getTitleColor();
+    title.className = "title text-center text-white p-3 mb-4 rounded";
+    // title.style.backgroundColor = this.getTitleColor();
     return title;
   }
 
