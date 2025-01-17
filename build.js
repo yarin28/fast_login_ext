@@ -7,7 +7,7 @@ async function packageExtension() {
   // Initialize the ChromeExtension object
   const crx = new ChromeExtension({
     privateKey: fs.readFileSync(path.resolve('key.pem')),
-    codebase: 'https://your-gitlab-instance.com/path/to/extension.crx',
+    codebase: 'https://github.com/yarin28/fast_login_ext/raw/refs/heads/main/fast_login_ext.crx',
     rootDirectory: path.resolve('.')
   });
 
@@ -16,7 +16,7 @@ async function packageExtension() {
     const crxBuffer = await crx.pack();
 
     // Save the .crx file
-    fs.writeFileSync('fast_login.crx', crxBuffer);
+    fs.writeFileSync('fast_login_ext.crx', crxBuffer);
 
     // Generate and save the updates.xml
     const updateXML = await crx.generateUpdateXML();
