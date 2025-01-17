@@ -397,7 +397,7 @@ class CredentialInjector {
 
   createTitle() {
     const title = document.createElement("h2");
-    title.textContent = "Select Login Credentials - update test";
+    title.textContent = "Select Login Credentials version" + chrome.runtime.getManifest().version;
     title.className = "text-center text-white p-3 mb-4 rounded";
     title.style.backgroundColor = this.getTitleColor();
     return title;
