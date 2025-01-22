@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Auto Login Populator",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Adds a searchable credentials popup above the login form.",
   "update_url": "https://github.com/yarin28/fast_login_ext/raw/refs/heads/main/updates.xml",
   "permissions": [
